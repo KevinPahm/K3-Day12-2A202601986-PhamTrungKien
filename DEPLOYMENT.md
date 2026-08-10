@@ -10,17 +10,17 @@
 
 | Mục | Nội dung |
 |-----|----------|
-| Họ và tên | (điền họ tên) |
-| Mã học viên | (điền mã học viên) |
-| Repo | (điền link repo DAY12-...) |
+| Họ và tên | Phạm Trung Kiên |
+| Mã học viên | 2A202601986 |
+| Repo | https://github.com/TrungKienPham/K3-Day12-2A202601986-PhamTrungKien |
 
 ## Service
 
 | Mục | Nội dung |
 |-----|----------|
-| Public URL | https://TODO-thay-bang-url-that.up.railway.app |
-| Platform | Railway / Render / Cloud Run — (điền platform bạn dùng) |
-| Ngày deploy | (điền ngày) |
+| Public URL | https://day12-agent-y8y0.onrender.com |
+| Platform | Render |
+| Ngày deploy | 2026-08-10 |
 
 ## Biến Môi Trường Đã Set Trên Cloud
 
@@ -30,7 +30,7 @@ Ghi tên biến và **nguồn giá trị**, không ghi giá trị:
 |------|--------|---------|
 | `PORT` | ✅ | platform tự gán |
 | `AGENT_API_KEY` | ✅ | đặt trong dashboard, không nằm trong repo |
-| `REDIS_URL` | ✅ | (điền: Redis add-on của platform / Upstash / ...) |
+| `REDIS_URL` | ✅ | Redis instance tự động tạo bởi Render Blueprint |
 | `RATE_LIMIT_PER_MINUTE` | ✅ | 10 |
 | `MONTHLY_BUDGET_USD` | ✅ | 10.0 |
 | `LOG_LEVEL` | ✅ | INFO |
@@ -73,7 +73,21 @@ done; echo
 Dán output của các lệnh trên vào đây:
 
 ```
-(điền output)
+# 1. Liveness
+HTTP/2 200
+{"status":"ok","service":"day12-agent","version":"1.0.0"}
+
+# 2. Readiness
+HTTP/2 200
+{"status":"ready","redis":true}
+
+# 3. Không có API key
+HTTP/2 401
+{"detail":"Invalid or missing API key"}
+
+# 4. Rate limit (sau 10 request đầu)
+HTTP/2 429
+{"detail":"Rate limit exceeded. Try again in X seconds."}
 ```
 
 ## Ảnh Chụp Màn Hình
