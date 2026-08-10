@@ -75,19 +75,33 @@ Dán output của các lệnh trên vào đây:
 ```
 # 1. Liveness
 HTTP/2 200
+Content-Type: application/json
+
 {"status":"ok","service":"day12-agent","version":"1.0.0"}
 
 # 2. Readiness
 HTTP/2 200
+Content-Type: application/json
+
 {"status":"ready","redis":true}
 
 # 3. Không có API key
-HTTP/2 401
-{"detail":"Invalid or missing API key"}
+HTTP/2 401 Unauthorized
+Content-Type: application/json
+
+{"detail":"invalid or missing API key"}
 
 # 4. Rate limit (sau 10 request đầu)
-HTTP/2 429
-{"detail":"Rate limit exceeded. Try again in X seconds."}
+HTTP/2 200 OK
+Content-Type: application/json
+
+{"answer":"Theo mình hiểu, What is Docker liên quan tới cách hệ thống được đóng gói và vận hành. Điểm mấu chốt là tách cấu hình ra khỏi code và giữ service ở trạng thái stateless.","user_id":"sv-test","history_length":0,"cost_usd":2.565e-05,"tokens":{"in":3,"out":42}}
+
+
+# 5. Rate limit — gọi 15 lần, những lần cuối phải trả 429
+
+200 200 200 200 200 200 200 200 200 429 429 429 429 429 429
+
 ```
 
 ## Ảnh Chụp Màn Hình
@@ -109,7 +123,3 @@ Không đăng ký được tài khoản cloud? Vẫn nộp được bài, nhưng
 4. Chạy `pytest tests/test_cp5.py -v` — bộ test sẽ tự chuyển sang kiểm tra
    `http://localhost:8000`
 5. Ghi rõ lý do không deploy được vào phần dưới đây:
-
-```
-(điền lý do nếu dùng phương án dự phòng, ngược lại xóa mục này)
-```
